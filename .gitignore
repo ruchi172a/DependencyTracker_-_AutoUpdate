@@ -1,0 +1,19 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.venv/
+env/
+venv/
+
+# Dependency Reports
+dependency_report.csv
+
+# Secrets
+.env
+
+# Misc
+*.log

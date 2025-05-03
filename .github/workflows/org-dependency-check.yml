@@ -1,0 +1,35 @@
+name: Dependency Report Generator
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 6 AM UTC
+  workflow_dispatch:       # Allows manual trigger
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests python-dotenv
+
+      - name: Run dependency report generator
+        env:
+          MY_GITHUB_PAT: ${{ secrets.MY_GITHUB_PAT }}
+        run: |
+          python github_org_scanner.py
+
+      - name: Upload CSV report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-report
+          path: dependency_report.csv
